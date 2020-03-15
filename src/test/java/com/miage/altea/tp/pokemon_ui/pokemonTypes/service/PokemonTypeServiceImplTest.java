@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
-public class PokemonTypeServiceImplTest {
+
+class PokemonTypeServiceImplTest {
 
     @Test
     void listPokemonsTypes_shouldCallTheRemoteService() {
@@ -54,4 +56,5 @@ public class PokemonTypeServiceImplTest {
         assertNotNull(valueAnnotation);
         assertEquals("${pokemonType.service.url}", valueAnnotation.value());
     }
+
 }

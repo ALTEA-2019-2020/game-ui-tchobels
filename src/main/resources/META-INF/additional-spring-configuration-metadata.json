@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "trainer.service.password",
+      "type": "java.lang.String",
+      "description": "Description for trainer.service.password."
+    }
+  ]
+}
