@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PokemonTypeController {
 
-    @Autowired
     PokemonTypeService pokemonTypeService;
 
     @Autowired

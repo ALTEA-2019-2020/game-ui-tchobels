@@ -2,6 +2,7 @@ package com.miage.altea.tp.pokemon_ui.config;
 
 import com.miage.altea.tp.pokemon_ui.trainers.bo.Trainer;
 import com.miage.altea.tp.pokemon_ui.trainers.service.TrainerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return trainerService;
     }
 
+    @Autowired
     public void setTrainerService(TrainerService trainerService) {
         this.trainerService = trainerService;
     }
@@ -29,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
     public UserDetailsService userDetailsService() {
         return (String name) -> {
             Trainer trainer = trainerService.getTrainerByName(name);

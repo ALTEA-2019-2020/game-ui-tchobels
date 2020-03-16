@@ -1,20 +1,19 @@
 package com.miage.altea.tp.pokemon_ui.controller;
 
 import com.miage.altea.tp.pokemon_ui.trainers.service.TrainerService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/trainers")
-public class TrainerController {
+@RequestMapping(value = "/profile")
+public class ProfileController {
 
-    TrainerService trainerService;
+    private TrainerService trainerService;
 
     @Autowired
     public void setTrainerService(TrainerService trainerService) {
@@ -22,16 +21,13 @@ public class TrainerController {
     }
 
     @GetMapping(value = "/")
-    public ModelAndView trainers(){
-        var modelAndView = new ModelAndView("trainers");
-        modelAndView.addObject("allTrainer", trainerService.getAllTrainers());
-        return modelAndView;
-    }
+    public ModelAndView profil(){
+        var modelAndView = new ModelAndView("profile");
 
-    @GetMapping(value = "/{name}")
-    public ModelAndView trainerName(@PathVariable String name){
-        var modelAndView = new ModelAndView("trainerDetail");
-        modelAndView.addObject("trainerDetail", trainerService.getTrainerByName(name));
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        modelAndView.addObject("trainerDetail", trainerService.getTrainerByName(principal.getUsername()));
+        modelAndView.addObject("allTrainer", trainerService.getAllTrainers());
         return modelAndView;
     }
 }

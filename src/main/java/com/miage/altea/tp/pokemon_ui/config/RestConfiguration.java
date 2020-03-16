@@ -16,10 +16,10 @@ import java.util.List;
 @Configuration
 public class RestConfiguration {
 
-    @Value("${trainer.service.username}")
+    @Value("${spring.security.user.name}")
     private String username;
 
-    @Value("${trainer.service.password}")
+    @Value("${spring.security.user.password}")
     private String password;
 
     public void setUsername(String username) {
