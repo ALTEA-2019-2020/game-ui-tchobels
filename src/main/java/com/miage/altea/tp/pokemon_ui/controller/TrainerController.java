@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/trainers")
 public class TrainerController {
 
-    TrainerService trainerService;
+    private TrainerService trainerService;
 
     @Autowired
     public void setTrainerService(TrainerService trainerService) {

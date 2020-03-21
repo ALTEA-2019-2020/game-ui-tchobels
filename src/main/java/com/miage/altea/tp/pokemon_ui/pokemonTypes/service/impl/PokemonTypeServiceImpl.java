@@ -20,6 +20,15 @@ public class PokemonTypeServiceImpl implements PokemonTypeService {
 
     private String pokemonServiceUrl = "http://localhost:8080";
 
+    @Autowired
+    public void setRestTemplate(@Qualifier("pokemonTypeApiRestTemplate") RestTemplate pokemonTypeApiRestTemplate) {
+        this.pokemonTypeApiRestTemplate = pokemonTypeApiRestTemplate;
+    }
+
+    @Value("${pokemonType.service.url}")
+    public void setPokemonTypeServiceUrl(String pokemonServiceUrl) {
+        this.pokemonServiceUrl = pokemonServiceUrl;
+    }
 
     public List<PokemonType> listPokemonsTypes() {
         PokemonType[] pokemonTypes = pokemonTypeApiRestTemplate.getForObject("http://localhost:8080/pokemon-types/", PokemonType[].class);
@@ -29,16 +38,5 @@ public class PokemonTypeServiceImpl implements PokemonTypeService {
     @Override
     public PokemonType getPokemonType(int id) {
         return pokemonTypeApiRestTemplate.getForObject("http://localhost:8080/pokemon-types/{id}", PokemonType.class, id);
-    }
-
-
-    @Autowired
-    public void setRestTemplate(@Qualifier("pokemonTypeApiRestTemplate") RestTemplate pokemonTypeApiRestTemplate) {
-        this.pokemonTypeApiRestTemplate = pokemonTypeApiRestTemplate;
-    }
-
-    @Value("${pokemonType.service.url}")
-    public void setPokemonTypeServiceUrl(String pokemonServiceUrl) {
-        this.pokemonServiceUrl = pokemonServiceUrl;
     }
 }

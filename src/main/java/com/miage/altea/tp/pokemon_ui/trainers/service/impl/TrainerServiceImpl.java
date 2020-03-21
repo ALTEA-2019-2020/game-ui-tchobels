@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @Service
 public class TrainerServiceImpl implements TrainerService {
 
-    private final String TRAINER_PATH = "/trainers/";
-
     private RestTemplate restTemplate;
 
     private String trainerServiceUrl;
@@ -33,8 +31,8 @@ public class TrainerServiceImpl implements TrainerService {
         this.restTemplate = restTemplate;
     }
 
-    @Autowired
-    void setPokemonTypeService(PokemonTypeService pokemonTypeService) {
+    @Value("${trainer.service.url}")
+    void setPokemonTypeServiceUrl(PokemonTypeService pokemonTypeService) {
         this.pokemonTypeService = pokemonTypeService;
     }
 
@@ -46,7 +44,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<Trainer> getAllTrainers() {
-        return Arrays.asList(restTemplate.getForObject(trainerServiceUrl + TRAINER_PATH, Trainer[].class));
+        return Arrays.asList(restTemplate.getForObject(trainerServiceUrl + "/trainers", Trainer[].class));
     }
 
     @Override

@@ -32,17 +32,17 @@ public class RestConfiguration {
 
     @Bean
     RestTemplate trainerApiRestTemplate() {
-        RestTemplate t = new RestTemplate();
-        List<ClientHttpRequestInterceptor> l = new ArrayList<>();
-        l.add(new BasicAuthenticationInterceptor(username, password));
-        t.setInterceptors(l);
-        return t;
+        RestTemplate restTemplate = new RestTemplate();
+        List<ClientHttpRequestInterceptor> clientHttpRequestInterceptors = new ArrayList<>();
+        clientHttpRequestInterceptors.add(new BasicAuthenticationInterceptor(username, password));
+        restTemplate.setInterceptors(clientHttpRequestInterceptors);
+        return restTemplate;
     }
 
     @Bean
     RestTemplate pokemonTypeApiRestTemplate() {
-        RestTemplate t = new RestTemplate();
-        t.setInterceptors(
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setInterceptors(
                 Collections.singletonList(
                         (httpRequest, bytes, clientHttpRequestExecution) -> {
                             HttpHeaders headers = httpRequest.getHeaders();
@@ -50,7 +50,7 @@ public class RestConfiguration {
                             return clientHttpRequestExecution.execute(httpRequest, bytes);
                         })
         );
-        return t;
+        return restTemplate;
     }
 
 }

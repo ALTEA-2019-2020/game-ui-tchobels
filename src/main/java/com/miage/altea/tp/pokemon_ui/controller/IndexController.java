@@ -15,8 +15,8 @@ public class IndexController {
 
     @PostMapping(value = "/registerTrainer")
     ModelAndView registerNewTrainer(String trainerName) {
-        var model = new ModelAndView("register");
-        model.addObject("name", trainerName);
-        return model;
+        var modelAndView = new ModelAndView("register");
+        modelAndView.addObject("name", trainerName);
+        return modelAndView;
     }
 }
