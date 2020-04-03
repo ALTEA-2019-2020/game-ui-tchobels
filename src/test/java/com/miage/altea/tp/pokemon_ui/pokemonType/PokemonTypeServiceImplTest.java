@@ -1,5 +1,4 @@
-package com.miage.altea.tp.pokemon_ui.pokemonTypes.service;
-
+package com.miage.altea.tp.pokemon_ui.pokemonType;
 import com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType;
 import com.miage.altea.tp.pokemon_ui.pokemonTypes.service.impl.PokemonTypeServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class PokemonTypeServiceImplTest {
@@ -39,7 +37,7 @@ class PokemonTypeServiceImplTest {
     }
 
     @Test
-    void pokemonServiceImpl_shouldBeAnnotatedWithService() {
+    void pokemonServiceImpl_shouldBeAnnotatedWithService(){
         assertNotNull(PokemonTypeServiceImpl.class.getAnnotation(Service.class));
     }
 

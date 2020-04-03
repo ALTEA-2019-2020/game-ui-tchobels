@@ -9,9 +9,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @Configuration
 public class RestConfiguration {
@@ -22,20 +20,19 @@ public class RestConfiguration {
     @Value("${spring.security.user.password}")
     private String password;
 
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
     }
 
-    public void setPassword(String password) {
+    void setPassword(String password) {
         this.password = password;
     }
 
     @Bean
     RestTemplate trainerApiRestTemplate() {
+        ClientHttpRequestInterceptor clientHttpRequestInterceptor = new BasicAuthenticationInterceptor(username, password);
         RestTemplate restTemplate = new RestTemplate();
-        List<ClientHttpRequestInterceptor> clientHttpRequestInterceptors = new ArrayList<>();
-        clientHttpRequestInterceptors.add(new BasicAuthenticationInterceptor(username, password));
-        restTemplate.setInterceptors(clientHttpRequestInterceptors);
+        restTemplate.setInterceptors(Collections.singletonList(clientHttpRequestInterceptor));
         return restTemplate;
     }
 
@@ -52,5 +49,4 @@ public class RestConfiguration {
         );
         return restTemplate;
     }
-
 }

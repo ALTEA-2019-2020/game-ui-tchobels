@@ -1,4 +1,6 @@
 package com.miage.altea.tp.pokemon_ui.controller;
+
+import com.miage.altea.tp.pokemon_ui.trainers.service.impl.TrainerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,16 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IndexControllerTest {
+public class IndexControllerTest {
 
     @Test
-    void controllerShouldBeAnnotated(){
+    void controllerShouldBeAnnotated() {
         assertNotNull(IndexController.class.getAnnotation(Controller.class));
     }
 
     @Test
     void index_shouldReturnTheNameOfTheIndexTemplate() {
-        var indexController = new IndexController();
+        var indexController = new IndexController(new TrainerServiceImpl());
         var viewName = indexController.index();
 
         assertEquals("index", viewName);
@@ -31,8 +33,8 @@ class IndexControllerTest {
     }
 
     @Test
-    void registerNewTrainer_shouldReturnAModelAndView(){
-        var indexController = new IndexController();
+    void registerNewTrainer_shouldReturnAModelAndView() {
+        var indexController = new IndexController(new TrainerServiceImpl());
         var modelAndView = indexController.registerNewTrainer("Blue");
 
         assertNotNull(modelAndView);

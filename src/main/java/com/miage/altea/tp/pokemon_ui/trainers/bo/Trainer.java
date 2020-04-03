@@ -1,5 +1,6 @@
 package com.miage.altea.tp.pokemon_ui.trainers.bo;
 
+import com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.List;
 public class Trainer implements UserDetails {
     private String name;
     private List<Pokemon> team;
+    private List<PokemonType> teamType;
     private String password;
 
     @Override

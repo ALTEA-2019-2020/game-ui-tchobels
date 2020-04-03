@@ -1,33 +1,45 @@
 package com.miage.altea.tp.pokemon_ui.controller;
 
+import com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType;
+import com.miage.altea.tp.pokemon_ui.pokemonTypes.service.PokemonTypeService;
+import com.miage.altea.tp.pokemon_ui.trainers.bo.Pokemon;
+import com.miage.altea.tp.pokemon_ui.trainers.bo.Trainer;
 import com.miage.altea.tp.pokemon_ui.trainers.service.TrainerService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-@RequestMapping(value = "/profile")
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/profile")
 public class ProfileController {
 
+    @Autowired
     private TrainerService trainerService;
 
     @Autowired
-    public void setTrainerService(TrainerService trainerService) {
-        this.trainerService = trainerService;
-    }
+    private PokemonTypeService pokemonTypeService;
 
-    @GetMapping(value = "/")
-    public ModelAndView profil(){
-        var modelAndView = new ModelAndView("profile");
-
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        modelAndView.addObject("trainerDetail", trainerService.getTrainerByName(principal.getUsername()));
-        modelAndView.addObject("allTrainer", trainerService.getAllTrainers());
-        return modelAndView;
+    @GetMapping
+    ModelAndView myProfil() {
+        String currentPrincipal = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        Trainer currentUser = trainerService.getTrainerByName(currentPrincipal);
+        List<PokemonType> pokemons = currentUser.getTeam().stream()
+                .map((Pokemon p) -> pokemonTypeService.getPokemonType(p.getPokemonTypeId()))
+                .collect(Collectors.toList());
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", currentUser);
+        map.put("pokemons", pokemons);
+        return new ModelAndView("profil", map);
     }
 }

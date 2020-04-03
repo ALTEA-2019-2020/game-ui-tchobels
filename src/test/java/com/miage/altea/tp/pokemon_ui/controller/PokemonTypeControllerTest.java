@@ -23,12 +23,11 @@ class PokemonTypeControllerTest {
 
         when(pokemonTypeService.listPokemonsTypes()).thenReturn(List.of(new PokemonType(), new PokemonType()));
 
-        var pokemonTypeController = new PokemonTypeController();
-        pokemonTypeController.setPokemonTypeService(pokemonTypeService);
+        var pokemonTypeController = new PokemonTypeController(pokemonTypeService);
         var modelAndView = pokemonTypeController.pokedex();
 
         assertEquals("pokedex", modelAndView.getViewName());
-        var pokemons = (List<PokemonType>)modelAndView.getModel().get("pokemonTypes");
+        var pokemons = (List<PokemonType>) modelAndView.getModel().get("pokemonTypes");
         assertEquals(2, pokemons.size());
         verify(pokemonTypeService).listPokemonsTypes();
     }
@@ -41,4 +40,6 @@ class PokemonTypeControllerTest {
         assertNotNull(getMapping);
         assertArrayEquals(new String[]{"/pokedex"}, getMapping.value());
     }
+
+
 }
