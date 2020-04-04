@@ -21,12 +21,6 @@ public class TrainerServiceImpl implements TrainerService {
         this.restTemplate = restTemplate;
     }
 
-
-    @Value("${pokemonType.service.url}")
-    void setPokemonTypeServiceUrl(String trainerServiceUrl) {
-        this.trainerServiceUrl = trainerServiceUrl;
-    }
-
     @Override
     public Trainer getTrainerByName(String name) {
         return this.restTemplate.getForObject(trainerServiceUrl + "/trainers/" + name, Trainer.class);
@@ -40,6 +34,5 @@ public class TrainerServiceImpl implements TrainerService {
     @Value("${trainer.service.url}")
     public void setTrainerApiUrl(String url) {
         this.trainerServiceUrl = url;
-
     }
 }
