@@ -17,7 +17,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Autowired
     @Qualifier("trainerApiRestTemplate")
-    void setRestTemplate(RestTemplate restTemplate) {
+    public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -35,5 +35,10 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public Trainer[] getAllTrainers() {
         return this.restTemplate.getForObject(trainerServiceUrl + "/trainers/", Trainer[].class);
+    }
+
+    @Value("${pokemonType.service.url}")
+    public void setTrainerApiUrl(String url) {
+        this.trainerServiceUrl = url;
     }
 }

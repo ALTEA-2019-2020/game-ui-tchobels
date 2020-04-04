@@ -8,13 +8,13 @@ let opponentCurrentPokemon;
 
 const skipAnimations = false;
 
-const battleApiUrl = "http://localhost:8082";
+const battleApiUrl = "http://localhost:8090";
 
 async function startBattle(a, b){
     trainerName = a;
     opponentName = b;
 
-    const result = await $.post(`${battleApiUrl}/battles?trainer=${trainerName}&opponent=${opponentName}`);
+    const result = await $.post(`${battleApiUrl}/battles?opponent=${opponentName}&trainer=${trainerName}`);
     battle = result;
 
     await showMessage(`Starting battle between ${trainerName} and ${opponentName} !`);
