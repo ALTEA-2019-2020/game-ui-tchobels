@@ -46,10 +46,10 @@ async function pokemonEntersBattle(trainerName, pokemon, frontView){
 function updatePokemonView(trainerName, pokemon){
     let pokemonHpBar = $(`[id='${trainerName}-pokemon-hp']`);
 
-    pokemonHpBar.text(pokemon.hp);
-    pokemonHpBar.attr("aria-valuemax",pokemon.maxHp);
-    pokemonHpBar.attr("aria-valuenow",pokemon.hp);
-    pokemonHpBar.css("width",`${pokemon.hp * 100 / pokemon.maxHp}%` );
+    pokemonHpBar.text(pokemon.type.stats.hp);
+    pokemonHpBar.attr("aria-valuemax",pokemon.type.stats.maxHp);
+    pokemonHpBar.attr("aria-valuenow",pokemon.type.stats.hp);
+    pokemonHpBar.css("width",`${pokemon.type.stats.hp * 100 / pokemon.type.stats.maxHp}%` );
 }
 
 async function pokemonExitsBattle(trainerName, pokemon){
@@ -63,13 +63,13 @@ async function pokemonExitsBattle(trainerName, pokemon){
 
 function checkBattleEnd(){
     // battle ends if all pokemons of a trainer are KO !
-    if(battle.trainer.team.every(poke => poke.ko === true)){
+    if(battle.trainer.team.every(poke => poke.alive === false)){
         // show the battle end
         showMessage(`${trainerName} lost the battle !`);
         // exitPokemon(trainerName, trainerCurrentPokemon);
         return true;
     }
-    if(battle.opponent.team.every(poke => poke.ko === true)){
+    if(battle.opponent.team.every(poke => poke.alive === false)){
         showMessage(`${trainerName} win the battle !`);
         // exitPokemon(opponentName, opponentCurrentPokemon);
         return true;
@@ -85,20 +85,20 @@ async function refreshBattle(){
     }
 
     // checking for ko
-    if(trainerCurrentPokemon.ko){
+    if(!trainerCurrentPokemon.alive){
         await showMessage(`${trainerName}'s ${trainerCurrentPokemon.type.name} is KO !`);
         await pokemonExitsBattle(trainerName, trainerCurrentPokemon);
 
-        const firstAliveTrainerPokemon = battle.trainer.team.find(poke => poke.ko !== true);
+        const firstAliveTrainerPokemon = battle.trainer.team.find(poke => poke.alive === true);
         trainerCurrentPokemon = firstAliveTrainerPokemon;
         await pokemonEntersBattle(trainerName, trainerCurrentPokemon, false);
     }
 
-    if(opponentCurrentPokemon.ko){
+    if(!opponentCurrentPokemon.alive){
         await showMessage(`${opponentName}'s ${opponentCurrentPokemon.type.name} is KO !`);
         await pokemonExitsBattle(opponentName, opponentCurrentPokemon);
 
-        const firstAliveOpponentPokemon = battle.opponent.team.find(poke => poke.ko !== true);
+        const firstAliveOpponentPokemon = battle.opponent.team.find(poke => poke.alive === true);
         opponentCurrentPokemon = firstAliveOpponentPokemon;
         await pokemonEntersBattle(opponentName, opponentCurrentPokemon, true);
     }
